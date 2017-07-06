@@ -13,9 +13,5 @@ services:
       - "/opt/certs/:/opt/certs"
       - "/etc/letsencrypt/:/etc/letsencrypt"
     container_name: "nginx"
-    links:
-      - oalibrary
-    depends_on:
-      - oalibrary
     logging:
       driver: "journald"
