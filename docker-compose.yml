@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   nginx:
     build: ./nginx/
@@ -16,3 +16,4 @@ services:
     container_name: "nginx"
     logging:
       driver: "journald"
+    restart: always
