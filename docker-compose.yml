@@ -11,7 +11,6 @@ services:
       - "./nginx/ssl.conf:/etc/nginx/ssl.conf"
       - "./nginx/expires.conf:/etc/nginx/expires.conf"
       - "/var/www/seds/:/var/www/seds"
-      - "/opt/certs/:/opt/certs"
       - "/etc/letsencrypt/:/etc/letsencrypt"
     container_name: "nginx"
     logging:
