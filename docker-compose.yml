@@ -8,11 +8,40 @@ services:
     volumes:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/searx.conf:/etc/nginx/conf.d/searx.conf"
       - "./nginx/ssl.conf:/etc/nginx/ssl.conf"
       - "./nginx/expires.conf:/etc/nginx/expires.conf"
       - "/var/www/seds/:/var/www/seds"
       - "/etc/letsencrypt/:/etc/letsencrypt"
     container_name: "nginx"
+    links:
+        - "searx"
     logging:
       driver: "journald"
+    restart: always
+  searx:
+    build: ./searx/
+    expose:
+        - "8888"
+    environment:
+        - BASE_URL="https://search.seds.nl"
+        - INSTANCE_NAME="SEDS – searx"
+    container_name: "searx"
+    logging:
+      driver: "journald"
+    restart: always
+  filtron:
+    build: ./filtron/
+    volumes:
+      - "/etc/filtron:/etc/filtron"
+    container_name: "filtron"
+    links:
+        - "searx"
+    logging:
+      driver: "journald"
+    environment:
+        - APP_PORT=8888
+        - RULES_FILE=/etc/filtron/searx_rules.json
+        - VIRTUAL_HOST=search.seds.nl
+        - APP_PORT=8844
     restart: always
